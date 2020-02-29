@@ -7,8 +7,8 @@ critical_logger = logger.get_logger(50, 'critical')
 debug_logger = logger.get_logger()
 
 def get_config():
-""" Loads json config file and returns
-""" 
+    """ Loads json config file and returns
+    """ 
     try:
         config = json.load('config/monitor.json')
     except AttributeError:

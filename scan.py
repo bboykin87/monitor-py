@@ -11,14 +11,20 @@ _logger = logger.get_logger(__name__)
 
 def load_config():
     """ Loads json config file and returns
-    """ 
+    """
+    config_file = f'/home/{os.getlogin()}/monitor/config/monitor.json' 
     try:
-        with open('config/monitor.json', 'r') as f:
+        with open(f'{config_file}', 'r') as f:
             config = json.load(f)
-    
-    except IOError:
-        _logger.debug('config file missing, creating default')
+    except (IOError, json.decoder.JSONDecodeError) :
+        _logger.debug('Config file missing, creating default')
         config = {'settings' : {'interval' : '60', 'servers' : ['localhost',]}}
+        
+        subprocess.call(['touch', f'{config_file}'], False)
+        f = open(config_file, 'w')
+        json.dump(config,f)
+        f.close()
+        _logger.info('Config File Saved')
     else:
         _logger.debug('Config File Loaded')
         config = json.dumps(config)

@@ -52,10 +52,10 @@ def main():
     while True:
         for s in config['settings']['servers']:
             response = ping_server(s)
-        if response == 0:
-            _logger.info(f'{s} is up...')
-        elif response == 1:
-            _logger.info(f'{s} is down...')
+            if response == 0:
+                _logger.info(f'{s} is up...')
+            elif response == 1:
+                _logger.info(f'{s} is down...')
         interval = int(config['settings']['interval'])
         t.sleep(interval)
 

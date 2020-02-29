@@ -1,15 +1,22 @@
 import os, sys
 import subprocess
-import configparser
 import json
+import modules.logs as logger
+
+
+
 
 def main():
-    if not os.path.exists("/etc/monitor/monitor.conf"): 
-        os.makedirs("/etc/monitor/")
-        config['settngs'] = {'interval' : '60', 'servers' : ['localhost',]}
-        config_json = json.dumps(config)
+    
+    config = {
+        'settngs' : [{'interval' : '60', 'servers' : ['localhost',]}]
+        }
+    config_json = json.dumps(config)
+
     with open('monitor.json') as f:
-        data = json.load(f)
+        json.dump(config_json, f)
+
+
         
 
     

@@ -2,13 +2,12 @@ import os, sys
 import subprocess
 import json
 import modules.logs as logger
-import modules.suppress as sp
+# import modules.suppress as sp
 import time as t
 import modules.filecheck
 
-critical_logger = logger.get_logger(50, 'critical')
-debug_logger = logger.get_logger()
-info_logger = logger.get_logger(30, 'info')
+_logger = logger.get_logger(__name__)
+
 
 def load_config():
     """ Loads json config file and returns
@@ -18,10 +17,10 @@ def load_config():
             config = json.load(f)
     
     except IOError:
-        debug_logger.critical('config file missing, creating default')
+        _logger.debug('config file missing, creating default')
         config = {'settings' : {'interval' : '60', 'servers' : ['localhost',]}}
     else:
-        debug_logger.debug('Config File Loaded')
+        _logger.debug('Config File Loaded')
         config = json.dumps(config)
         config = json.loads(config)
     return config
@@ -33,13 +32,9 @@ def ping_server(host):
     Arguments:
         host {list} -- [list of hosts to ping]
     """    
-    for s in host:
-        with s.suppress_stdout():
-            response = subprocess.call(['ping',f'{host}','-c','1',"-W","3"], False)
-            if response == 0:
-                info_logger.info(f'{s} is up...')
-            elif response == 1:
-                info_logger.info(f'{s} is down...')
+        # with s.suppress_stdout():
+    response = subprocess.call(['ping',f'{host}','-c','1',"-W","3"], False)
+    return response
 
 def main():
     config = load_config()
@@ -50,17 +45,13 @@ def main():
 
     while True:
         for s in config['settings']['servers']:
-        
-            with sp.suppress_stdout():
-                response = subprocess.call(['ping',f'{s}','-c','1',"-W","3"], False)
-                if response == 0:
-                    info_logger.info(f'{s} is up...')
-                elif response == 1:
-                    info_logger.info(f'{s} is down...')
-                else:
-                    critical_logger(f'Unknown Error occured trying to reach {s}')
-            interval = int(config['settings']['interval'])
-            t.sleep(interval)
+            response = ping_server(s)
+        if response == 0:
+            _logger.info(f'{s} is up...')
+        elif response == 1:
+            _logger.info(f'{s} is down...')
+        interval = int(config['settings']['interval'])
+        t.sleep(interval)
 
 
 

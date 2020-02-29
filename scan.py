@@ -3,8 +3,21 @@ import subprocess
 import json
 import modules.logs as logger
 
+critical_logger = logger.get_logger(50, 'critical')
+debug_logger = logger.get_logger()
 
-
+def get_config():
+""" Loads json config file and returns
+""" 
+    try:
+        config = json.load('config/monitor.json')
+    except AttributeError:
+        debug_logger.critical('config file missing, creating default')
+        config = {
+            'settngs' : [{'interval' : '60', 'servers' : ['localhost',]}]
+            }
+    else:
+        debug_logger.debug('Config File Loaded')
 
 def main():
     

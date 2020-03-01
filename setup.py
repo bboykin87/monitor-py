@@ -22,7 +22,7 @@ setuptools.setup(
     scripts=['monitor/scan.py'],
     classifiers=[
         "Programming Language :: Python :: 3",
-        "Operating System :: Linux"
+        "Operating System :: posix"
     ],
     python_requires='>=3.6',
 )

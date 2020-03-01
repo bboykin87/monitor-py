@@ -3,3 +3,5 @@ git_rsa
 git_rsa.pub
 build/
 Dockerfile
+.vscode/settings.json
+.pytest_cache/

@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="monitor",
+    name="monitor-py",
     version="0.1",
     author="Brandon Boykin",
     author_email="bboykin87@gmail.com",

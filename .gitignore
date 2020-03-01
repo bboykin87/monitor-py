@@ -1,0 +1,5 @@
+*.pyc
+git_rsa
+git_rsa.pub
+build/
+Dockerfile

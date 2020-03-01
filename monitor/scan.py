@@ -1,10 +1,10 @@
 import os, sys
 import subprocess
 import json
-import modules.logs as logger
+import monitor.modules.logs as logger
 # import modules.suppress as sp
 import time as t
-import modules.filecheck
+import monitor.modules.filecheck
 
 _logger = logger.get_logger(__name__)
 

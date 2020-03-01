@@ -1,5 +1,7 @@
 # monitor.py
 
+# Testing packaging
+
 ## v0.1 upcoming !
 
 This is a small package to monitor server addresses by sending pings at desired intervals.  

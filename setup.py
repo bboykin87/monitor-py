@@ -14,9 +14,11 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/bboykin87/monitor.py",
+    # sets directory where modules are found
     packages=['monitor.modules'],
-    #package_dir={'monitor' : 'modules'},
+    # list individual modules
     package_data={'monitor.modules' :['monitor/modules/filecheck.py','monitor/modules/logs.py']},
+    # specify scripts to be run on command line
     scripts=['monitor/scan.py'],
     classifiers=[
         "Programming Languaage :: Python :: 3",

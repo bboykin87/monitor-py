@@ -21,7 +21,7 @@ setuptools.setup(
     # specify scripts to be run on command line
     scripts=['monitor/scan.py'],
     classifiers=[
-        "Programming Languaage :: Python :: 3",
+        "Programming Language :: Python :: 3",
         "Operating System :: Linux"
     ],
     python_requires='>=3.6',

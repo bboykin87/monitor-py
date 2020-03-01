@@ -2,7 +2,9 @@
 
 # monitor.py
 
-# monitor-py has been packaged and is available on PyPi via `pip install monitor-py`
+# Packaged !!
+
+monitor-py has been packaged and is available on PyPI via `pip install monitor-py`
 
 ## v0.1 release upcoming!
 

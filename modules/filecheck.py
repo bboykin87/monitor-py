@@ -1,4 +1,4 @@
-import os
+import os, sys
 
 
 
@@ -12,7 +12,16 @@ def check_files():
     """    
     # debug_logger = logger.get_logger()
     # debug_logger.debug('Checking for needed directories')
-    base_path = f'/home/{os.getlogin()}/monitor/'
+    # try block added to check if script is running as root
+    # throws an error if it is unless running in a container (set by ENV variable in Dockerfile) which is build environment
+    try:
+        base_path = f'/home/{os.getlogin()}/monitor/'
+    except OSError as e:
+        if os.getuid() == 0 and os.environ['CONTAINER']:
+            pass
+        else:
+            print('SCRIPT SHOULD NOT BE RUN AS ROOT!')
+            sys.exit(1)
     if not os.path.exists(base_path):
         # debug_logger.debug('Base Path not found, creating logs and config directories')
         # create log directory

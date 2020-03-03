@@ -5,3 +5,7 @@ build/
 Dockerfile
 .vscode/settings.json
 .pytest_cache/
+monitor_py.egg-info/dependency_links.txt
+monitor_py.egg-info/PKG-INFO
+monitor_py.egg-info/SOURCES.txt
+monitor_py.egg-info/top_level.txt

@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, pwd
 
 
 
@@ -15,7 +15,7 @@ def check_files():
     # try block added to check if script is running as root
     # throws an error if it is unless running in a container (set by ENV variable in Dockerfile) which is build environment
     try:
-        base_path = f'/home/{os.getlogin()}/monitor/'
+        base_path = f'/home/{pwd.getpwuid(os.getuid())[0]}/monitor/'
     except OSError as e:
         if os.getuid() == 0 and os.environ['CONTAINER']:
             pass

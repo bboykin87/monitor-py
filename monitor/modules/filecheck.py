@@ -22,7 +22,13 @@ def check_files():
         else:
             print('SCRIPT SHOULD NOT BE RUN AS ROOT!')
             sys.exit(1)
-    if not os.path.exists(base_path):
+    try:        
+        if not os.path.exists(base_path):
+    except OSError:
+        print('SCRIPT SHOULD NOT BE RUN AS ROOT!')
+        sys.exit(1)
+    else:
+        
         # debug_logger.debug('Base Path not found, creating logs and config directories')
         # create log directory
         os.makedirs(os.path.join(base_path, 'logs'))

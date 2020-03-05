@@ -6,6 +6,9 @@ import os, sys, pwd
 # need path for logs, config
 #
 #
+def root_warning():
+    return print('SCRIPT SHOULD NOT BE RUN AS ROOT!')
+
 def check_files():
     """ If base directory isn't present it is created also checks individually for logs 
     and config dir and creates if needed
@@ -20,20 +23,26 @@ def check_files():
         if os.getuid() == 0 and os.environ['CONTAINER']:
             pass
         else:
-            print('SCRIPT SHOULD NOT BE RUN AS ROOT!')
+            root_warning()
             sys.exit(1)
     try:        
-        if not os.path.exists(base_path):
+        os.makedirs(os.path.join(base_path, 'logs'))
     except OSError:
-        print('SCRIPT SHOULD NOT BE RUN AS ROOT!')
+        root_warning()
         sys.exit(1)
     else:
-        
         # debug_logger.debug('Base Path not found, creating logs and config directories')
         # create log directory
-        os.makedirs(os.path.join(base_path, 'logs'))
-        # create settings directory
-        os.makedirs(os.path.join(base_path, 'config'))
+        try:
+            os.makedirs(os.path.join(base_path, 'logs'))
+            # create settings directory
+        except OSError:
+            root_warning()
+        except FileExistsError:
+            pass
+        try:
+            
+            os.makedirs(os.path.join(base_path, 'config'))
     elif not os.path.exists(os.path.join(base_path, 'logs')):
         os.makedirs(os.path.join(base_path, 'logs'))
     elif not os.path.exists(os.path.join(base_path, 'config')):

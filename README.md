@@ -1,4 +1,4 @@
-![Python package](https://github.com/bboykin87/monitor.py/workflows/Python%20package/badge.svg?branch=master)
+![Current Builds](https://github.com/bboykin87/monitor.py/workflows/Python%20package/badge.svg?branch=master)
 
 # monitor.py
 

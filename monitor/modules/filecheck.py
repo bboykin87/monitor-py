@@ -6,8 +6,24 @@ import os, sys, pwd
 # need path for logs, config
 #
 #
+
+#validate = validate(os.makedirs())
+
+def validate(f):
+    def _makedirs(*args, **kwargs):
+        try:
+            f(*args, **kwargs)
+        except FileExistsError:
+            pass
+    return _makedirs
+
+@validate
+def make_proj_dirpath(dir_path):
+    os.makedirs(dir_path)
+
 def root_warning():
-    return print('SCRIPT SHOULD NOT BE RUN AS ROOT!')
+    print('SCRIPT SHOULD NOT BE RUN AS ROOT!')
+    sys.exit(1)
 
 def check_files():
     """ If base directory isn't present it is created also checks individually for logs 
@@ -18,35 +34,14 @@ def check_files():
     # try block added to check if script is running as root
     # throws an error if it is unless running in a container (set by ENV variable in Dockerfile) which is build environment
     try:
-        base_path = f'/home/{pwd.getpwuid(os.getuid())[0]}/monitor/'
+        base_path = f'/home/{str(pwd.getpwuid(os.getuid())[0])}/monitor/'
     except OSError as e:
-        if os.getuid() == 0 and os.environ['CONTAINER']:
+        if pwd.getpwuid(os.getuid())[0] == 0 and os.environ['CONTAINER'] == 'True':
             pass
         else:
             root_warning()
-            sys.exit(1)
-    try:        
-        os.makedirs(os.path.join(base_path, 'logs'))
-    except OSError:
-        root_warning()
-        sys.exit(1)
     else:
-        # debug_logger.debug('Base Path not found, creating logs and config directories')
-        # create log directory
-        try:
-            os.makedirs(os.path.join(base_path, 'logs'))
-            # create settings directory
-        except OSError:
-            root_warning()
-        except FileExistsError:
-            pass
-        try:
-            
-            os.makedirs(os.path.join(base_path, 'config'))
-    elif not os.path.exists(os.path.join(base_path, 'logs')):
-        os.makedirs(os.path.join(base_path, 'logs'))
-    elif not os.path.exists(os.path.join(base_path, 'config')):
-        os.makedirs(os.path.join(base_path, 'config'))
-
+        make_proj_dirpath(os.path.join(base_path, 'logs'))
+        make_proj_dirpath(os.path.join(base_path, 'config'))
 
 check_files()

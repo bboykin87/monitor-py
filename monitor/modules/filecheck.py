@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, pwd
 
 
 
@@ -6,6 +6,25 @@ import os, sys
 # need path for logs, config
 #
 #
+
+#validate = validate(os.makedirs())
+
+def validate(f):
+    def _makedirs(*args, **kwargs):
+        try:
+            f(*args, **kwargs)
+        except FileExistsError:
+            pass
+    return _makedirs
+
+@validate
+def make_proj_dirpath(dir_path):
+    os.makedirs(dir_path)
+
+def root_warning():
+    print('SCRIPT SHOULD NOT BE RUN AS ROOT!')
+    sys.exit(1)
+
 def check_files():
     """ If base directory isn't present it is created also checks individually for logs 
     and config dir and creates if needed
@@ -15,23 +34,14 @@ def check_files():
     # try block added to check if script is running as root
     # throws an error if it is unless running in a container (set by ENV variable in Dockerfile) which is build environment
     try:
-        base_path = f'/home/{os.getlogin()}/monitor/'
+        base_path = f'/home/{str(pwd.getpwuid(os.getuid())[0])}/monitor/'
     except OSError as e:
-        if os.getuid() == 0 and os.environ['CONTAINER']:
+        if pwd.getpwuid(os.getuid())[0] == 0 and os.environ['CONTAINER'] == 'True':
             pass
         else:
-            print('SCRIPT SHOULD NOT BE RUN AS ROOT!')
-            sys.exit(1)
-    if not os.path.exists(base_path):
-        # debug_logger.debug('Base Path not found, creating logs and config directories')
-        # create log directory
-        os.makedirs(os.path.join(base_path, 'logs'))
-        # create settings directory
-        os.makedirs(os.path.join(base_path, 'config'))
-    elif not os.path.exists(os.path.join(base_path, 'logs')):
-        os.makedirs(os.path.join(base_path, 'logs'))
-    elif not os.path.exists(os.path.join(base_path, 'config')):
-        os.makedirs(os.path.join(base_path, 'config'))
-
+            root_warning()
+    else:
+        make_proj_dirpath(os.path.join(base_path, 'logs'))
+        make_proj_dirpath(os.path.join(base_path, 'config'))
 
 check_files()

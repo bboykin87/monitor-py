@@ -1,12 +1,12 @@
-![Python package](https://github.com/bboykin87/monitor.py/workflows/Python%20package/badge.svg?branch=master)
+![Current Builds](https://github.com/bboykin87/monitor.py/workflows/Python%20package/badge.svg?branch=master)
 
 # monitor.py
 
-# Packaged !!
+# v0.1.2 is Out!!
 
 monitor-py has been packaged and is available on PyPI via `pip install monitor-py`
 
-## v0.1 release upcoming!
+## v0.1.2 Released!
 
 This is a small package to monitor server addresses by sending pings at desired intervals.  
 
@@ -42,3 +42,5 @@ Log ouput will look like the following :
 ```   
 
  localhost is the default server setup so you can immediately test if it is working.
+
+To run the script use `scan.py`  (yes the name will be changed!)

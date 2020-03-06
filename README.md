@@ -4,7 +4,8 @@
 
 # v0.1.2 is Out!!
 
-monitor-py has been packaged and is available on PyPI via `pip install monitor-py`
+monitor-py has been packaged and is available on PyPI via `pip install monitor-py` however I thought a bug that would prevent
+some modules from being imported was fixed [here](https://github.com/bboykin87/monitor-py/issues/7) but was actually fixed once a shebang was added 
 
 ## v0.1.2 Released!
 

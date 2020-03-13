@@ -36,7 +36,7 @@ def check_files():
     try:
         base_path = f'/home/{str(pwd.getpwuid(os.getuid())[0])}/monitor/'
     except OSError as e:
-        if pwd.getpwuid(os.getuid())[0] == 0 and os.environ['CONTAINER'] == 'True':
+        if pwd.getpwuid(os.getuid())[0] == 'root' and os.environ['CONTAINER'] == 'True':
             pass
         else:
             root_warning()

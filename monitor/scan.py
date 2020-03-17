@@ -34,14 +34,20 @@ def load_config():
     return config
 
 
-def ping_server(host):
+def _wholeint(number):
+    if ( number % 1 == 0):
+        return number
+    else:
+        raise TypeError
+
+def ping_server(host, timeout):
     """ Pings all servers in the passed list and logs if they are up or down
     
     Arguments:
         host {list} -- [list of hosts to ping]
     """    
         # with s.suppress_stdout():
-    response = subprocess.call(['ping',f'{host}','-c','1',"-W","3"], False)
+    response = subprocess.call(['ping',f'{host}','-c','1',"-W",f"{timeout}"], False)
     return response
 
 def main():
